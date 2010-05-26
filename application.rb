@@ -37,6 +37,11 @@ class IdeatorApp < Sinatra::Base
     end
   end
 
+  not_found do
+    "This idea is nowhere to be found, <a href='/'>go back</a>."
+  end
+
+
   before do
     @ideas = Idea.all
   end
@@ -49,7 +54,7 @@ class IdeatorApp < Sinatra::Base
   get '/idea/:id' do
     @record = Idea.get(params[:id])
     if @record.nil?
-      halt 404, "Could not find idea..."
+      halt 404
     end
     @highlight = @record.id
     haml :index
@@ -67,7 +72,7 @@ class IdeatorApp < Sinatra::Base
       }
       idea.save
     else
-      halt 404, "Could not find idea..."
+      halt 404
     end
 
     redirect "/idea/#{ params[:id] }"
@@ -85,10 +90,10 @@ class IdeatorApp < Sinatra::Base
     redirect '/'
   end
 
-  delete '/delete/:id' do
+  post '/delete/:id' do
     idea = Idea.get( params[:id] )
     if idea.nil?
-      halt 404, "Could not find idea..."
+      halt 404
     end
 
     idea.destroy!

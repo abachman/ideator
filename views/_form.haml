@@ -1,9 +1,9 @@
 -# record ||= Idea.new
 
 - if record.new?
-  %h3 CREATE NEW RECORD
+  %h3 CREATE NEW BRILLIANT IDEA
 - else
-  %h3 EDIT OLD STALE RECORD
+  %h3 EDIT OLD STALE IDEA
 
 %form{:action => record.new? ? "/create" : "/update/#{record.id}", :method => 'post'}
   %table
@@ -42,7 +42,7 @@
   - else
     %input{:type => 'submit', :value => "Save Idea"}
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
+    %a{:href => "#", :onclick => "$.post('/delete/#{ record.id }', {success: function () {window.href = '/'}});"} get rid of this idea
 
   - if !record.new?
     :javascript
