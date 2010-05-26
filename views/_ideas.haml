@@ -3,5 +3,5 @@
     %li.idea{:id => "idea_#{idea.id}"}
       %strong
         = idea.sum_of_fields
-      %a{:href => "/idea/#{idea.id}"}= h idea.name
+      %a{:href => "/idea/#{idea.id}"}= h(idea.name)
 

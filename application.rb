@@ -30,7 +30,7 @@ class IdeatorApp < Sinatra::Base
     end
 
     def h str
-      Sanitize.clean str
+      Sanitize.clean(str)
     end
   end
 
