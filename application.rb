@@ -1,21 +1,9 @@
 # require 'haml'
 require 'sinatra/base'
+require 'config/database'
 require 'models'
 
 class IdeatorApp < Sinatra::Base
-  set :environment, 'development'
-
-  ## CONFIGURATION
-  configure :development do
-    DataMapper.setup(:default, 'postgres://localhost/ideator_dev')
-
-    DataMapper::Logger.new(STDOUT, :debug)
-  end
-
-  configure :production do
-    DataMapper.setup(:default, ENV['DATABASE_URL'])
-  end
-
   set :sessions, true
 
   get '/' do
