@@ -18,5 +18,10 @@ namespace :db do
       )
     end
   end
+
+  desc "Clear test data"
+  task :clear do
+    Idea.all.map {|i| i.destroy!}
+  end
 end
 

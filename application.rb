@@ -40,6 +40,9 @@ class IdeatorApp < Sinatra::Base
 
   get '/idea/:id' do
     @record = Idea.get(params[:id])
+    if @record.nil?
+      halt 404, "Could not find idea..."
+    end
     @highlight = @record.id
     haml :index
   end
@@ -55,6 +58,8 @@ class IdeatorApp < Sinatra::Base
         :clarity_of_ability_to_meet_need => params[:clarity_of_ability_to_meet_need]
       }
       idea.save
+    else
+      halt 404, "Could not find idea..."
     end
 
     redirect "/idea/#{ params[:id] }"
@@ -74,7 +79,11 @@ class IdeatorApp < Sinatra::Base
 
   delete '/delete/:id' do
     idea = Idea.get( params[:id] )
-    idea.destroy! if !idea.nil?
+    if idea.nil?
+      halt 404, "Could not find idea..."
+    end
+
+    idea.destroy!
 
     redirect '/'
   end
