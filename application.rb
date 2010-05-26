@@ -4,6 +4,7 @@ require 'config/database'
 require 'models'
 require 'haml'
 require 'sass'
+require 'sanitize'
 
 class IdeatorApp < Sinatra::Base
   set :sessions, true
@@ -18,7 +19,7 @@ class IdeatorApp < Sinatra::Base
       haml(
        ".slider &nbsp;\n" +
        "%span.caption 1\n" +
-       "%input.value{:type => 'hidden', :value => '#{@record.nil? ? 0 : @record.send(:id)}', :id => '#{id}', :name => '#{id}'}")
+       "%input.value{:type => 'hidden', :value => '#{@record.new? ? 1 : @record.send(id)}', :id => '#{id}', :name => '#{id}'}")
     end
 
     def partial identifier, opts={}
@@ -26,6 +27,10 @@ class IdeatorApp < Sinatra::Base
         :locals => {}
       }.merge!(opts)
       haml "_#{identifier}".to_sym, :locals => options[:locals]
+    end
+
+    def h str
+      Sanitize.clean str
     end
   end
 
