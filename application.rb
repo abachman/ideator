@@ -3,7 +3,7 @@ require 'json'
 
 require 'sinatra/base'
 
-class MyApp < Sinatra::Base
+class IdeatorApp < Sinatra::Base
   set :sessions, true
 
   get '/' do
