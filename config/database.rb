@@ -1,4 +1,4 @@
-require 'rubygems'
+gem 'dm-core', '= 0.10.2'
 require 'dm-core'
 require 'models'
 
