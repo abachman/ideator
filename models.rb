@@ -1,5 +1,4 @@
 require 'dm-core'
-require 'dm-validations'
 
 class Idea
   include DataMapper::Resource
