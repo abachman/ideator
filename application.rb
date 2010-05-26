@@ -1,11 +1,13 @@
-require 'rubygems'
-require 'sinatra'
-require 'erb'
+require 'haml'
 require 'json'
 
+require 'sinatra/base'
 
-enable :sessions
+class MyApp < Sinatra::Base
+  set :sessions, true
 
-get '/' do
-  redirect '/index.html'
+  get '/' do
+    haml 'index'
+  end
 end
+
