@@ -1,6 +1,5 @@
 haml
-sass
-datamapper
+dm-core
 data_objects
 do_postgres
 
