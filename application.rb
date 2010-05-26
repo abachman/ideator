@@ -7,7 +7,7 @@ class IdeatorApp < Sinatra::Base
   set :sessions, true
 
   get '/' do
-    haml 'index'
+    haml :index
   end
 end
 
