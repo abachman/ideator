@@ -33,14 +33,16 @@
 
     %tr.field
       %td
-        = label_for 'clarity_of_ability_to_meet_need', 'CLARITY OF ABILITY TO MEET NEED'
+        = label_for 'clarity_of_ability_to_meet_need', 'CLARITY OF ABILITY TO MEET NEED
       %td
         = slider_for 'clarity_of_ability_to_meet_need'
 
-  - if record.new? 
+  - if record.new?
     %input{:type => 'submit', :value => "Create Idea"}
   - else
     %input{:type => 'submit', :value => "Save Idea"}
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
 
   - if !record.new?
     :javascript
