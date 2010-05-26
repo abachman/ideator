@@ -1,0 +1,53 @@
+-# record ||= Idea.new
+
+- if record.new?
+  %h3 CREATE NEW RECORD
+- else
+  %h3 EDIT OLD STALE RECORD
+
+%form{:action => record.new? ? "/create" : "/update/#{record.id}", :method => 'post'}
+  %table
+    %tr.field
+      %td
+        = label_for 'name', 'Name'
+      %td
+        %input{:type => 'text', :name => 'name', :id => 'name'}
+
+    %tr.field
+      %td
+        = label_for 'clarity_of_audience', 'CLARITY OF AUDIENCE'
+      %td
+        = slider_for 'clarity_of_audience'
+
+    %tr.field
+      %td
+        = label_for 'clarity_of_problem', 'CLARITY OF PROBLEM'
+      %td
+        = slider_for 'clarity_of_problem'
+
+    %tr.field
+      %td
+        = label_for 'clarity_of_need', 'CLARITY OF NEED'
+      %td
+        = slider_for 'clarity_of_need'
+
+    %tr.field
+      %td
+        = label_for 'clarity_of_ability_to_meet_need', 'CLARITY OF ABILITY TO MEET NEED'
+      %td
+        = slider_for 'clarity_of_ability_to_meet_need'
+
+  - if record.new? 
+    %input{:type => 'submit', :value => "Create Idea"}
+  - else
+    %input{:type => 'submit', :value => "Save Idea"}
+
+  - if !record.new?
+    :javascript
+      $(function () {
+        $('#name').attr('value', '#{ record.name }');
+        $('#clarity_of_audience').siblings('.slider').slider('value', '#{ record.clarity_of_audience }');
+        $('#clarity_of_problem').siblings('.slider').slider('value', '#{ record.clarity_of_problem }');
+        $('#clarity_of_need').siblings('.slider').slider('value', '#{ record.clarity_of_need }');
+        $('#clarity_of_ability_to_meet_need').siblings('.slider').slider('value', '#{ record.clarity_of_ability_to_meet_need }');
+      });
