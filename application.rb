@@ -10,6 +10,8 @@ require 'sanitize'
 class IdeatorApp < Sinatra::Base
   set :sessions, true
   set :haml, {:format => :html5 }
+  set :root, File.dirname(__FILE__)
+  set :public, Proc.new { File.join(root, "public") }
 
   helpers do
     def label_for id, name
