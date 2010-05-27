@@ -1,55 +1,46 @@
 -# record ||= Idea.new
 
 - if record.new?
-  %h3 CREATE NEW BRILLIANT IDEA
+  %h3 CREATE BRILLIANT IDEA
 - else
-  %h3 EDIT OLD STALE IDEA
+  %h3 
+    EDIT STALE IDEA
+    %span.new_link
+      = link_to "nevermind", "/"
 
 %form{:action => record.new? ? "/create" : "/update/#{record.id}", :method => 'post'}
   %table
     %tr.field
       %td
-        = label_for 'name', 'Name'
+        = label_for 'name', 'THE IDEA'
       %td
-        %input{:type => 'text', :name => 'name', :id => 'name'}
+        %input{:type => 'text', :name => 'name', :id => 'name', :value => record.name}
 
     %tr.field
       %td
         = label_for 'clarity_of_audience', 'CLARITY OF AUDIENCE'
       %td
-        = slider_for 'clarity_of_audience'
+        = slider_for 'clarity_of_audience', record.clarity_of_audience
 
     %tr.field
       %td
         = label_for 'clarity_of_problem', 'CLARITY OF PROBLEM'
       %td
-        = slider_for 'clarity_of_problem'
+        = slider_for 'clarity_of_problem', record.clarity_of_problem
 
     %tr.field
       %td
         = label_for 'clarity_of_need', 'CLARITY OF NEED'
       %td
-        = slider_for 'clarity_of_need'
+        = slider_for 'clarity_of_need', record.clarity_of_need
 
     %tr.field
       %td
         = label_for 'clarity_of_ability_to_meet_need', 'CLARITY OF ABILITY TO MEET NEED'
       %td
-        = slider_for 'clarity_of_ability_to_meet_need'
+        = slider_for 'clarity_of_ability_to_meet_need', record.clarity_of_ability_to_meet_need
 
-  - if record.new?
-    %input{:type => 'submit', :value => "Create Idea"}
-  - else
-    %input{:type => 'submit', :value => "Save Idea"}
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    %a{:href => "#", :onclick => "$.post('/delete/#{ record.id }', {success: function () {window.href = '/'}});"} get rid of this idea
-
+  %input{:type => 'submit', :value => "Keep it"}
   - if !record.new?
-    :javascript
-      $(function () {
-        $('#name').attr('value', '#{ record.name }');
-        $('#clarity_of_audience').siblings('.slider').slider('value', '#{ record.clarity_of_audience }');
-        $('#clarity_of_problem').siblings('.slider').slider('value', '#{ record.clarity_of_problem }');
-        $('#clarity_of_need').siblings('.slider').slider('value', '#{ record.clarity_of_need }');
-        $('#clarity_of_ability_to_meet_need').siblings('.slider').slider('value', '#{ record.clarity_of_ability_to_meet_need }');
-      });
+    %a.delete_link{:href => "/delete/#{ record.id }", :onclick => javascript_post_function} get rid of it
+%hr

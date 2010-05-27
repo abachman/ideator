@@ -15,16 +15,21 @@
 
     :javascript
       $(function () {
-        $('.slider').slider({
-          step: 1,
-          min: 0,
-          max: 10,
-          value: 1,
-          change: function (event, ui) {
-            $(this).next('.caption').text(ui.value);
-            $(this).siblings('.value').show().attr('value', ui.value);
-          }
-        });
+        if ($('.slider').length) {
+          $('.slider').slider({
+            step: 1,
+            min: 0,
+            max: 10,
+            value: 1,
+            change: function (event, ui) {
+              $(this).next('.caption').text(ui.value);
+              $(this).siblings('.value').show().attr('value', ui.value);
+            }
+          });
+          $('.slider').each(function () {
+            $(this).slider('value', $(this).siblings("input[type='hidden']").attr('value'));
+          });
+        }
       });
   %body
     .container_12

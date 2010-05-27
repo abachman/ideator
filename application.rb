@@ -8,7 +8,6 @@ require 'sass'
 require 'sanitize'
 
 class IdeatorApp < Sinatra::Base
-  set :sessions, true
   set :haml, {:format => :html5 }
   set :root, File.dirname(__FILE__)
   set :public, Proc.new { File.join(root, "public") }
@@ -18,11 +17,11 @@ class IdeatorApp < Sinatra::Base
       "<label for='#{id}'>#{name}</label>"
     end
 
-    def slider_for id
+    def slider_for id, value
       haml(
        ".slider &nbsp;\n" +
-       "%span.caption 1\n" +
-       "%input.value{:type => 'hidden', :value => '#{@record.new? ? 1 : @record.send(id)}', :id => '#{id}', :name => '#{id}'}")
+       "%span.caption #{value || 1}\n" +
+       "%input.value{:type => 'hidden', :value => '#{value || 1}', :id => '#{id}', :name => '#{id}'}")
     end
 
     def partial identifier, opts={}
@@ -35,15 +34,27 @@ class IdeatorApp < Sinatra::Base
     def h str
       Sanitize.clean(str)
     end
+
+    def link_to text, url
+      haml "%a{:href => '#{ url }'} #{ text }"
+    end
+
+    # from rails: actionpack/lib/action_view/helpers/url_helper.rb
+    # simply post to a given url
+    def javascript_post_function(href=nil)
+      action = href ? "'#{href}'" : 'this.href'
+      submit_function =
+        "var f = document.createElement('form'); f.style.display = 'none'; " +
+        "this.parentNode.appendChild(f); f.method = 'POST'; f.action = #{action}; f.submit(); return false;"
+    end
   end
 
   not_found do
     "This idea is nowhere to be found, <a href='/'>go back</a>."
   end
 
-
   before do
-    @ideas = Idea.all
+    @ideas = Idea.all.sort_by {|a| a.name.downcase}
   end
 
   get '/' do
@@ -57,7 +68,7 @@ class IdeatorApp < Sinatra::Base
       halt 404
     end
     @highlight = @record.id
-    haml :index
+    haml 'ideas/index'.to_sym
   end
 
   post '/update/:id' do
@@ -75,7 +86,7 @@ class IdeatorApp < Sinatra::Base
       halt 404
     end
 
-    redirect "/idea/#{ params[:id] }"
+    redirect "/"
   end
 
   post '/create' do
