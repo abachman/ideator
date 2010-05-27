@@ -29,7 +29,7 @@ class IdeatorApp < Sinatra::Base
       options = {
         :locals => {}
       }.merge!(opts)
-      haml "_#{identifier}".to_sym, :locals => options[:locals]
+      haml identifier.to_sym, :locals => options[:locals]
     end
 
     def h str
@@ -48,7 +48,7 @@ class IdeatorApp < Sinatra::Base
 
   get '/' do
     @record = Idea.new
-    haml :index
+    haml 'ideas/index'.to_sym
   end
 
   get '/idea/:id' do

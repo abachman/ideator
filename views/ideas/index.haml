@@ -16,9 +16,9 @@
     :javascript
       $(function () {
         $('.slider').slider({
-          step: 1, 
-          min: 0, 
-          max: 10, 
+          step: 1,
+          min: 0,
+          max: 10,
           value: 1,
           change: function (event, ui) {
             $(this).next('.caption').text(ui.value);
@@ -32,10 +32,10 @@
         %h1 ideator
 
       .grid_8
-        = partial 'form', :locals => {:record => @record}
+        = partial 'ideas/_form', :locals => {:record => @record}
 
       .grid_4.ideas
-        = partial :ideas
+        = partial 'ideas/_ideas'
 
     - if !@highlight.nil?
       :javascript
