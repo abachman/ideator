@@ -23,7 +23,7 @@ body
     width: 240px
     height: 16px * 4
 
-$default_rounding: 2px
+$default_rounding: 3px
 
 =top_rounding($rounding: $default_rounding)
   -moz-border-radius-topleft: $rounding
@@ -45,6 +45,9 @@ $default_rounding: 2px
   +top_rounding($rounding)
   +bottom_rounding($rounding)
 
+$idea_total: 263px
+$idea_leader: 53px
+
 ul.idea_list
   list-style-type: none
   a
@@ -55,9 +58,9 @@ ul.idea_list
     color: #555
   .idea_wrapper
     padding: 4px 4px 4px 4px
-    margin: -4px -4px -4px -4px
+    margin: 2px -4px 2px -4px
     +full_rounding
-    border: 1px solid #fff
+    border: 1px solid transparent
     .idea
       .delete
         display: inline-block
@@ -67,9 +70,23 @@ ul.idea_list
       strong
         display: inline-block
         width: 30px
+      .leader
+        display: inline-block
+        float: left
+        width: $idea_leader
+        margin: 0
+        padding: 0
+      .description
+        display: inline-block
+        width: $idea_total - $idea_leader
+        margin: 0
+        padding: 0
+    &.current
+      border: 1px solid #e3e3e3
   .idea_wrapper:hover
     border: 1px solid #e0e0e0
     background-color: #eee
+    
 
 // forms
 .new_link

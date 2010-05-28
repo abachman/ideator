@@ -3,8 +3,10 @@
     %li
       .idea_wrapper
         .idea{:id => "idea_#{idea.id}"}
-          %a.delete{:href => "/delete/#{ idea.id }", :onclick => javascript_post_function} &nbsp;
-          %strong
-            = idea.sum_of_fields
-          %a{:href => "/idea/#{idea.id}"}= h(idea.name)
+          .leader
+            %a.delete{:href => "/delete/#{ idea.id }", :onclick => javascript_post_function} &nbsp;
+            %strong
+              = idea.sum_of_fields
+          .description
+            %a.idea_link{:href => "/idea/#{idea.id}"}= h(idea.name)
 
