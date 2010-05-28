@@ -1,4 +1,4 @@
-haml
+haml --version 3.0.2
 sinatra --version 1.0
 dm-core --version 0.10.2
 data_objects --version 0.10.2
