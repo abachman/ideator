@@ -8,13 +8,14 @@ require 'sass'
 require 'sanitize'
 
 class IdeatorApp < Sinatra::Base
+  set :session, true
   set :haml, {:format => :html5 }
   set :root, File.dirname(__FILE__)
   set :public, Proc.new { File.join(root, "public") }
 
   helpers do
-    def label_for id, name
-      "<label for='#{id}'>#{name}</label>"
+    def label_for id, name, options={}
+      "<label class='#{options[:class]}' for='#{id}'>#{name}</label>"
     end
 
     def slider_for id, value
@@ -55,11 +56,17 @@ class IdeatorApp < Sinatra::Base
 
   before do
     @ideas = Idea.all.sort_by {|a| a.name.downcase}
+    @record = Idea.new
   end
 
   get '/' do
-    @record = Idea.new
-    haml 'ideas/index'.to_sym
+    # haml 'index'.to_sym, :layout => 'layouts/default'.to_sym
+    haml 'ideas/index'.to_sym, :layout => 'layouts/default'.to_sym
+  end
+
+  get '/:token' do
+    pass if true
+    haml 'bevys/index'.to_sym, :layout => 'layouts/default'.to_sym
   end
 
   get '/idea/:id' do
@@ -68,7 +75,7 @@ class IdeatorApp < Sinatra::Base
       halt 404
     end
     @highlight = @record.id
-    haml 'ideas/index'.to_sym
+    haml 'ideas/index'.to_sym, :layout => 'layouts/default'.to_sym
   end
 
   post '/update/:id' do

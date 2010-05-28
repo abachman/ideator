@@ -12,9 +12,10 @@
   %table
     %tr.field
       %td
-        = label_for 'name', 'THE IDEA'
+        = label_for 'name', 'THE IDEA', :class => 'the_idea'
       %td
-        %input{:type => 'text', :name => 'name', :id => 'name', :value => record.name}
+        %textarea.name{:id => 'name', :name => 'name'}
+          = record.name
 
     %tr.field
       %td
@@ -41,6 +42,4 @@
         = slider_for 'clarity_of_ability_to_meet_need', record.clarity_of_ability_to_meet_need
 
   %input{:type => 'submit', :value => "Keep it"}
-  - if !record.new?
-    %a.delete_link{:href => "/delete/#{ record.id }", :onclick => javascript_post_function} get rid of it
 %hr

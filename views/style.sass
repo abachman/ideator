@@ -1,39 +1,79 @@
 body
-  font-family: 'Crimson Text'
+  font-family: "Crimson Text"
 
 .field
   padding-bottom: 10px
   vertical-align: middle
-
   td
     vertical-align: middle
     padding: 4px
-
   label
     font-size: 14px
     padding-right: 14px
-
   input[type='text']
     width: 240px
-
   .slider
     display: inline-block
     width: 244px
-
   .caption
     display: inline-block
     padding: 0 0 0 8px
     font-size: 18px
+  textarea
+    width: 240px
+    height: 16px * 4
 
-ul
+$default_rounding: 2px
+
+=top_rounding($rounding: $default_rounding)
+  -moz-border-radius-topleft: $rounding
+  -webkit-border-top-left-radius: $rounding
+  border-top-left-radius: $rounding
+  -moz-border-radius-topright: $rounding
+  -webkit-border-top-right-radius: $rounding
+  border-top-right-radius: $rounding
+
+=bottom_rounding($rounding: $default_rounding)
+  -moz-border-radius-bottomleft: $rounding
+  -webkit-border-bottom-left-radius: $rounding
+  border-bottom-left-radius: $rounding
+  -moz-border-radius-bottomright: $rounding
+  -webkit-border-bottom-right-radius: $rounding
+  border-bottom-right-radius: $rounding
+
+=full_rounding($rounding: $default_rounding)
+  +top_rounding($rounding)
+  +bottom_rounding($rounding)
+
+ul.idea_list
   list-style-type: none
-  .idea
-    strong
-      display: inline-block
-      width: 30px
+  a
+    text-decoration: none
+    color: #222
+    font-weight: bold
+  a:visited
+    color: #555
+  .idea_wrapper
+    padding: 4px 4px 4px 4px
+    margin: -4px -4px -4px -4px
+    +full_rounding
+    border: 1px solid #fff
+    .idea
+      .delete
+        display: inline-block
+        width: 20px
+        &.icon
+          background: url("/images/delete.png") no-repeat 0 0
+      strong
+        display: inline-block
+        width: 30px
+  .idea_wrapper:hover
+    border: 1px solid #e0e0e0
+    background-color: #eee
 
 // forms
 .new_link
   padding-left: 30px
+
 .delete_link
   padding-left: 30px

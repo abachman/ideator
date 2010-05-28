@@ -4,7 +4,7 @@ class Idea
   include DataMapper::Resource
 
   property :id, Serial
-  property :name, String, :required => true
+  property :name, Text, :required => true
   property :clarity_of_audience, Integer, :required => true
   property :clarity_of_problem, Integer, :required => true
   property :clarity_of_need, Integer, :required => true
