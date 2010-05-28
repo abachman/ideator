@@ -7,7 +7,7 @@
 - if !@highlight.nil?
   :javascript
     $(function () {
-      $('#idea_#{@highlight}').parent().addClass('current'); // ('highlight', {duration: 2000});
-      $('#idea_#{@highlight}').effect('highlight', {duration: 2000});
+      $('#idea_#{@highlight}').parent().addClass('current');
+      $('#idea_#{@highlight}').parent().effect('highlight', {color:'#eee'}, 1000);
     });
 
