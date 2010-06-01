@@ -4,9 +4,9 @@
       .idea_wrapper
         .idea{:id => "idea_#{idea.id}"}
           .leader
-            %a.delete{:href => "/delete/#{ idea.id }", :onclick => javascript_post_function} &nbsp;
+            %a.delete{:href => "/#{@bevy.token}/delete/#{ idea.id }", :onclick => javascript_post_function} &nbsp;
             %strong
               = idea.sum_of_fields
           .description
-            %a.idea_link{:href => "/idea/#{idea.id}"}= h(idea.name)
+            %a.idea_link{:href => "/#{@bevy.token}/idea/#{idea.id}"}= h(idea.name)
 

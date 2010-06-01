@@ -54,22 +54,40 @@ class IdeatorApp < Sinatra::Base
     "This idea is nowhere to be found, <a href='/'>go back</a>."
   end
 
-  before do
-    @ideas = Idea.all.sort_by {|a| a.name.downcase}
+  def load_bevy
+    if !params[:token].nil?
+      @bevy = Bevy.get(params[:token])
+    end
+    halt(404) if @bevy.nil?
+
+    @current_url = "http://ideator.heroku.com/#{ @bevy.token }"
+
+    load_records
+  end
+
+  def load_records
+    @ideas = @bevy.ideas
     @record = Idea.new
   end
 
+  # SASS stylesheet
+  get '/style.css' do
+    headers 'Content-Type' => 'text/css; charset=utf-8'
+    sass :style
+  end
+
   get '/' do
-    # haml 'index'.to_sym, :layout => 'layouts/default'.to_sym
-    haml 'ideas/index'.to_sym, :layout => 'layouts/default'.to_sym
+    # create a new bevy
+    @bevy = Bevy.new
+    @bevy.token = Bevy.generate_token
+    @bevy.save!
+
+    redirect "/#{ @bevy.token }"
   end
 
-  get '/:token' do
-    pass if true
-    haml 'bevys/index'.to_sym, :layout => 'layouts/default'.to_sym
-  end
+  get '/:token/idea/:id' do
+    load_bevy
 
-  get '/idea/:id' do
     @record = Idea.get(params[:id])
     if @record.nil?
       halt 404
@@ -78,7 +96,9 @@ class IdeatorApp < Sinatra::Base
     haml 'ideas/index'.to_sym, :layout => 'layouts/default'.to_sym
   end
 
-  post '/update/:id' do
+  post '/:token/update/:id' do
+    load_bevy
+
     idea = Idea.get(params[:id])
     if idea
       idea.attributes = {
@@ -93,36 +113,45 @@ class IdeatorApp < Sinatra::Base
       halt 404
     end
 
-    redirect "/"
+    redirect "/#{ @bevy.token }"
   end
 
-  post '/create' do
-    Idea.create(
+  post '/:token/create' do
+    load_bevy
+
+    @idea = Idea.create(
       :name => params[:name],
       :clarity_of_audience => params[:clarity_of_audience],
       :clarity_of_problem => params[:clarity_of_problem],
       :clarity_of_need => params[:clarity_of_need],
-      :clarity_of_ability_to_meet_need => params[:clarity_of_ability_to_meet_need]
+      :clarity_of_ability_to_meet_need => params[:clarity_of_ability_to_meet_need],
+      :bevy_token => @bevy.token
     )
 
-    redirect '/'
+    redirect "/#{ @bevy.token }"
   end
 
-  post '/delete/:id' do
+  post '/:token/delete/:id' do
+    load_bevy
+
     idea = Idea.get( params[:id] )
-    if idea.nil?
+    if idea.nil? || (idea.bevy != @bevy)
       halt 404
     end
 
     idea.destroy!
 
-    redirect '/'
+    redirect "/#{ @bevy.token }"
   end
 
-  # SASS stylesheet
-  get '/style.css' do
-    headers 'Content-Type' => 'text/css; charset=utf-8'
-    sass :style
+  # default route
+  get '/:token' do
+    load_bevy
+
+    # load ideas associated with this bevy
+    @ideas = @bevy.ideas
+
+    haml 'ideas/index'.to_sym, :layout => 'layouts/default'.to_sym
   end
 end
 

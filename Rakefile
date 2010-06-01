@@ -6,6 +6,11 @@ namespace :db do
     DataMapper.auto_migrate!
   end
 
+  desc "Upgrade the database schema"
+  task :upgrade do
+    DataMapper.auto_upgrade!
+  end
+
   desc "Add some test data"
   task :generate do
     10.times do |n|

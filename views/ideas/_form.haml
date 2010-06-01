@@ -8,7 +8,7 @@
     %span.new_link
       = link_to "nevermind", "/"
 
-%form{:action => record.new? ? "/create" : "/update/#{record.id}", :method => 'post'}
+%form{:action => record.new? ? "/#{@bevy.token}/create" : "/#{@bevy.token}/update/#{record.id}", :method => 'post'}
   %table
     %tr.field
       %td
