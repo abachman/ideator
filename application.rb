@@ -67,6 +67,7 @@ class IdeatorApp < Sinatra::Base
 
   def load_records
     @ideas = @bevy.ideas
+    # used in form
     @record = Idea.new
   end
 
@@ -147,9 +148,6 @@ class IdeatorApp < Sinatra::Base
   # default route
   get '/:token' do
     load_bevy
-
-    # load ideas associated with this bevy
-    @ideas = @bevy.ideas
 
     haml 'ideas/index'.to_sym, :layout => 'layouts/default'.to_sym
   end
