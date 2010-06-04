@@ -107,6 +107,7 @@ class IdeatorApp < Sinatra::Base
       halt 404
     end
     @highlight = @record.id
+
     haml 'ideas/index'.to_sym, :layout => 'layouts/default'.to_sym
   end
 
@@ -114,18 +115,18 @@ class IdeatorApp < Sinatra::Base
     load_bevy
 
     idea = Idea.first(:id => params[:id], :bevy_token => @bevy.token)
-    if idea
-      idea.attributes = {
-        :name => params[:name],
-        :clarity_of_audience => params[:clarity_of_audience],
-        :clarity_of_problem => params[:clarity_of_problem],
-        :clarity_of_need => params[:clarity_of_need],
-        :clarity_of_ability_to_meet_need => params[:clarity_of_ability_to_meet_need]
-      }
-      idea.save
-    else
+    if idea.nil?
       halt 404
     end
+
+    idea.attributes = {
+      :name => params[:name],
+      :clarity_of_audience => params[:clarity_of_audience],
+      :clarity_of_problem => params[:clarity_of_problem],
+      :clarity_of_need => params[:clarity_of_need],
+      :clarity_of_ability_to_meet_need => params[:clarity_of_ability_to_meet_need]
+    }
+    idea.save
 
     redirect "/#{ @bevy.token }"
   end
@@ -149,7 +150,7 @@ class IdeatorApp < Sinatra::Base
     load_bevy
 
     idea = Idea.first(:id => params[:id], :bevy_token => @bevy.token)
-    if idea.nil? || (idea.bevy != @bevy)
+    if idea.nil?
       halt 404
     end
 
