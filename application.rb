@@ -36,8 +36,16 @@ class IdeatorApp < Sinatra::Base
       Sanitize.clean(str)
     end
 
-    def link_to text, url
-      haml "%a{:href => '#{ url }'} #{ text }"
+    def link_to text, url=nil
+      haml "%a{:href => '#{ url || text }'} #{ text }"
+    end
+
+    def link_to_unless_current text, url=nil
+      if url == request.path_info
+        text
+      else
+        link_to text, url
+      end
     end
 
     # from rails: actionpack/lib/action_view/helpers/url_helper.rb
@@ -86,10 +94,15 @@ class IdeatorApp < Sinatra::Base
     redirect "/#{ @bevy.token }"
   end
 
+  get '/:token/about' do
+    load_bevy
+    haml :about, :layout => 'layouts/default'.to_sym
+  end
+
   get '/:token/idea/:id' do
     load_bevy
 
-    @record = Idea.get(params[:id])
+    @record = Idea.first(:id => params[:id], :bevy_token => @bevy.token)
     if @record.nil?
       halt 404
     end
@@ -100,7 +113,7 @@ class IdeatorApp < Sinatra::Base
   post '/:token/update/:id' do
     load_bevy
 
-    idea = Idea.get(params[:id])
+    idea = Idea.first(:id => params[:id], :bevy_token => @bevy.token)
     if idea
       idea.attributes = {
         :name => params[:name],
@@ -135,7 +148,7 @@ class IdeatorApp < Sinatra::Base
   post '/:token/delete/:id' do
     load_bevy
 
-    idea = Idea.get( params[:id] )
+    idea = Idea.first(:id => params[:id], :bevy_token => @bevy.token)
     if idea.nil? || (idea.bevy != @bevy)
       halt 404
     end

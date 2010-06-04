@@ -16,6 +16,17 @@ module NavigationHelpers
     when /a bevy page/
       "/#{ Bevy.first.token }"
 
+    when /the bevy page for "([^\"]*)"/
+      idea = Idea.first :name => $1
+      "/#{ idea.bevy.token }"
+
+    when /the about page/
+      "/#{ Bevy.first.token }/about"
+
+    when /the edit page for "([^\"]*)"/
+      idea = Idea.first :name => $1
+      "/#{ idea.bevy.token }/idea/#{ idea.id }"
+
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:
     #

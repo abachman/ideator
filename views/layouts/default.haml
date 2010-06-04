@@ -39,11 +39,26 @@
         }
       });
   %body
+    .top_nav_wrapper
+      .container_12
+        .grid_4
+          = link_to_unless_current("about", "/#{ @bevy.token }/about")
+          |
+          = link_to_unless_current("brainstorm", "/#{ @bevy.token }")
+        .grid_8
+          Share your bevy of ideas:
+          = link_to @current_url
+          or 
+          = link_to "start over", "/"
+        .clear
+      .clear
+
+
     .container_12
       .grid_12
         %h1 ideator
-        %p
-          Share your bevy of ideas:
-          = link_to( @current_url, @current_url )
 
       = yield
+
+      .clear
+      .grid_12.bottom_nav

@@ -6,7 +6,7 @@
   %h3 
     EDIT STALE IDEA
     %span.new_link
-      = link_to "nevermind", "/"
+      = link_to "nevermind", "/#{@bevy.token}"
 
 %form{:action => record.new? ? "/#{@bevy.token}/create" : "/#{@bevy.token}/update/#{record.id}", :method => 'post'}
   %table
@@ -42,4 +42,3 @@
         = slider_for 'clarity_of_ability_to_meet_need', record.clarity_of_ability_to_meet_need
 
   %input{:type => 'submit', :value => "Keep it"}
-%hr
