@@ -1,6 +1,6 @@
 # require 'haml'
 gem 'sinatra', '= 1.0'
-require 'sinatra/base'
+require 'sinatra/base' 
 require 'config/database'
 require 'models'
 require 'haml'
