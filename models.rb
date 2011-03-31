@@ -37,5 +37,3 @@ class Bevy
   end
 end
 
-
-
